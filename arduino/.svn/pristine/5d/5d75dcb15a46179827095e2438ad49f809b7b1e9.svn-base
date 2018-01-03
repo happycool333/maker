@@ -1,0 +1,93 @@
+#include <SoftwareSerial.h>
+
+//SoftwareSerial mySerial(7, 8,SERIAL_8N1); // RX, TX
+unsigned char sendCmd[8]={0xfe, 0x05, 0x91, 0x90, 0x14, 0x10, 0x02, 0xff};//LN33 读取模块地址的命令 对应的为FE 05 90 21 00 00 01 FF
+String comdata = "";
+String inputString = "1";         // a string to hold incoming data
+
+int ledPin = 13;
+
+void setup() {
+  // Open serial communications and wait for port to open:
+  Serial.begin(9600);
+  Serial1.begin(115200);
+//  while (!Serial) {
+//    ; // wait for serial port to connect. Needed for native USB port only
+//  }
+//  mySerial.begin(115200);
+  pinMode(ledPin, OUTPUT);
+  inputString.reserve(200);
+}
+
+
+
+void loop() {
+//  if (mySerial.available()) {
+//    Serial.write(mySerial.read());
+//  }
+//  if (Serial.available()) {
+//    mySerial.write(Serial.read());
+//  }
+//delay(2000);
+
+//for(int i = 0; i < sizeof(Readmv); i++)
+//{
+//  mySerial.write(Readmv[i]);
+//  Serial.print(i);
+//  delay(50);
+//}
+
+//mySerial.write(Readmv,8); 
+//delay(2000);
+
+   if (Serial1.available()) {
+    digitalWrite(ledPin, HIGH); 
+
+    Serial1.write(sendCmd, 8);
+    
+    Serial.println(Serial1.read(),HEX);   
+    while(Serial1.available()){
+      Serial.println(Serial1.read(),HEX);
+    }
+   }
+//   Serial.println(inputString);
+   delay(100);   
+   digitalWrite(ledPin, LOW);
+   delay(100);
+
+    
+   
+//    Serial.print("end output byte.");
+      
+//  if(comdata.length() > 0) {            //如果comdata接收到卡号，则读出卡号   
+//     Serial.print("Read I Measured Value:");   
+//     for(int i=0;i<comdata.length();i++){
+//       Serial.print(comdata[i],DEC);
+//       Serial.print("-");
+//       Serial.println(comdata[i],HEX);
+//     }
+//     Serial.println("");
+//     for(int i=0;i<comdata.length();i++){
+//       myPtHex(comdata[i]);
+//     }
+//     comdata = "";
+//   Serial.println("");
+
+//   while(true){
+//    continue;}
+    
+//  }
+ 
+
+}
+
+//void serialEvent() {
+//  digitalWrite(ledPin, HIGH);
+//  while (Serial1.available()) {
+//    // get the new byte:
+//    char inChar = (char)Serial1.read();
+//    inputString += inChar;
+//    digitalWrite(ledPin, HIGH);
+//  }
+//}
+
